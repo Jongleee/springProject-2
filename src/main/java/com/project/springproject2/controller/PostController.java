@@ -1,9 +1,9 @@
-package com.project.springproject1.controller;
+package com.project.springproject2.controller;
 
-import com.project.springproject1.domain.Post;
-import com.project.springproject1.domain.PostRepository;
-import com.project.springproject1.domain.PostRequestDto;
-import com.project.springproject1.service.PostService;
+import com.project.springproject2.domain.Post;
+import com.project.springproject2.domain.PostRepository;
+import com.project.springproject2.domain.PostRequestDto;
+import com.project.springproject2.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

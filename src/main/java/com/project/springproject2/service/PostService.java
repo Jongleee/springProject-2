@@ -1,8 +1,8 @@
-package com.project.springproject1.service;
+package com.project.springproject2.service;
 
-import com.project.springproject1.domain.Post;
-import com.project.springproject1.domain.PostRepository;
-import com.project.springproject1.domain.PostRequestDto;
+import com.project.springproject2.domain.Post;
+import com.project.springproject2.domain.PostRepository;
+import com.project.springproject2.domain.PostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

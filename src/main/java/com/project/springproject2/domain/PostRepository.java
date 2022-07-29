@@ -1,4 +1,4 @@
-package com.project.springproject1.domain;
+package com.project.springproject2.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
