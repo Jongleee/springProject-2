@@ -1,5 +1,7 @@
-package com.project.springproject2.domain;
+package com.project.springproject2.model;
 
+import com.project.springproject2.domain.Timestamped;
+import com.project.springproject2.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

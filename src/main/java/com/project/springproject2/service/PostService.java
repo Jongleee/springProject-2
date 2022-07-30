@@ -1,8 +1,8 @@
 package com.project.springproject2.service;
 
-import com.project.springproject2.domain.Post;
-import com.project.springproject2.domain.PostRepository;
-import com.project.springproject2.domain.PostRequestDto;
+import com.project.springproject2.model.Post;
+import com.project.springproject2.repository.PostRepository;
+import com.project.springproject2.dto.PostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
