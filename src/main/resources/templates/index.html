@@ -57,7 +57,7 @@
         .background-body {
             position: fixed;
             z-index: -1;
-            top: 371px;
+            top: 401px;
             height: 100%;
             width: 100%;
             background-color: #dee2e6;
@@ -458,9 +458,9 @@
                                 <button type="button" id="btn-light" class="btn-light" onclick="passwordCheck('${id}')">확인</button>
                             </div>
                         </div>
-                        <img id="${id}-edit" class="icon-start-edit" src="images/edit.png" alt="" onclick="editPost('${id}')">
-                        <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
-                        <img id="${id}-submit" class="icon-end-edit" src="images/done.png" alt="" onclick="submitEdit('${id}')">
+                        <img id="${id}-edit" class="icon-start-edit" src="../static/images/edit.png" alt="" onclick="editPost('${id}')">
+                        <img id="${id}-delete" class="icon-delete" src="../static/images/delete.png" alt="" onclick="deleteOne('${id}')">
+                        <img id="${id}-submit" class="icon-end-edit" src="../static/images/done.png" alt="" onclick="submitEdit('${id}')">
                     </div>
                 </div>`;
 
@@ -568,8 +568,14 @@
 </div>
 <div class="wrap">
     <div class="header">
-        <h2>나만의 항해 블로그</h2>
+
+        <h2><span th:text="${username}"></span> 님의 항해 블로그</h2>
+<!--        <h2>나만의 항해 블로그</h2>-->
     </div>
+    <!--        추가 부분-->
+    <form id="my_form" method="post" action="/user/logout">
+        <a id="logout-text" style="color: white" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+    </form>
     <div class="text-area">
         <div class="form-floating" style="margin-top: 20px; height: 40px">
             <div class="input-group mb-3">
@@ -589,7 +595,7 @@
         <div class="area-write">
         <textarea class="field" placeholder="내용을 입력해주세요" name="contents" id="contents" cols="30"
                   rows="10"></textarea>
-            <img src="images/send.png" alt="" onclick="writePost()">
+            <img src="../static/images/send.png" alt="" onclick="writePost()">
         </div>
 
 
@@ -639,9 +645,9 @@
 
                     <button type="button" class="btn btn-light" onclick="passwordCheck('${id}')">비밀번호 확인</button>
                 </div>
-                <img id="${id}-edit" class="icon-start-edit" src="images/edit.png" alt="" onclick="editPost('${id}')">
-                <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
-                <img id="${id}-submit" class="icon-end-edit" src="images/done.png" alt="" onclick="submitEdit('${id}')">
+                <img id="${id}-edit" class="icon-start-edit" src="../static/images/edit.png" alt="" onclick="editPost('${id}')">
+                <img id="${id}-delete" class="icon-delete" src="../static/images/delete.png" alt="" onclick="deleteOne('${id}')">
+                <img id="${id}-submit" class="icon-end-edit" src="../static/images/done.png" alt="" onclick="submitEdit('${id}')">
             </div>
         </div>
     </div>
