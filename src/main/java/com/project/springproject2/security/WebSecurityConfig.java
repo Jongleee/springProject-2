@@ -29,6 +29,8 @@ public class WebSecurityConfig {
         // 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
         http.csrf()
                 .ignoringAntMatchers("/user/**");
+        http.csrf()
+                .ignoringAntMatchers("/**");
 
         http
                 .authorizeHttpRequests((authz) -> authz
