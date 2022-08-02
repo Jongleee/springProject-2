@@ -1,6 +1,7 @@
 package com.project.springproject2.model;
 
 
+import com.project.springproject2.domain.Timestamped;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Entity(name = "users2") // DB 테이블 역할을 합니다.
-public class User implements UserDetails {
+public class User extends Timestamped implements UserDetails {
 
     // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.AUTO)
