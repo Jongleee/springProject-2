@@ -1,10 +1,15 @@
 package com.project.springproject2.controller;
 
+import com.project.springproject2.model.Message;
 import com.project.springproject2.model.Post;
 import com.project.springproject2.repository.PostRepository;
 import com.project.springproject2.dto.PostRequestDto;
+import com.project.springproject2.security.provider.JwtTokenProvider;
 import com.project.springproject2.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,56 +20,62 @@ public class PostController {
 
     private final PostRepository postRepository;
     private final PostService postService;
+    private final JwtTokenProvider jwtTokenProvider;
 
+    @PostMapping("/api/auth/post")
+    public Post createPost(@RequestBody PostRequestDto requestDto ,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+        String nickname = jwtTokenProvider.getUserPk(token);
+        Post post = new Post(nickname, requestDto);
+        return postRepository.save(post);
+    }
     @GetMapping("/api/post")
-    public List<Post> getPosts() {
-        return postRepository.findAllByOrderByCreatedAtDesc();
+    public ResponseEntity<?> getPosts() {
+        Message message = new Message();
+        List <?> post=postRepository.findAllByOrderByCreatedAtDesc();
+        message.setData(post);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @GetMapping("/api/post/{id}")
-    public List<Post> getPosts(@PathVariable Long id) {
-        return postRepository.findPostById(id);
+    public ResponseEntity<?> getPosts(@PathVariable Long id) {
+        Message message = new Message();
+        List <?> post=postRepository.findPostById(id);
+        message.setData(post);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    @PostMapping("/api/post")
-    public Post createPost(@RequestBody PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
-        return postRepository.save(post);
-    }
 
-    @PostMapping("/api/post/{id}")
-    public boolean checkPassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws Exception {
-        return postService.checkPassword(id, requestDto.getPassword());
-    }
 
-    @PutMapping("/api/post/{id}")
-    public List<Post> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws Exception {
+    @PutMapping("/api/auth/post/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto,@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
+        String nickname = jwtTokenProvider.getUserPk(token);
+        if (!postService.checkAuthor(id, nickname)){
+            Message message = new Message();
+            message.setData("작성자만 삭제할 수 있습니다.");
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        }
+        requestDto.setAuthor(nickname);
         postService.update(id, requestDto);
-        return postRepository.findPostById(id);
+        Message message = new Message();
+        List <?> post=postRepository.findPostById(id);
+        message.setData(post);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    @PutMapping("/api/post/password/{id}")
-    public boolean updatePost1(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws Exception {
-        if (postService.checkPassword(id, requestDto.getPassword())) {
-            postService.update(id, requestDto);
-            return true;
+    @DeleteMapping("/api/auth/post/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id ,@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
+        String nickname = jwtTokenProvider.getUserPk(token);
+        if (!postService.checkAuthor(id, nickname)){
+            Message message = new Message();
+            message.setData("작성자만 삭제할 수 있습니다.");
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
         }
-        return false;
-    }
-
-    @DeleteMapping("/api/post/{id}")
-    public boolean deletePost(@PathVariable Long id) throws Exception {
         postRepository.deleteById(id);
-        return true;
+        Message message = new Message();
+        message.setData("success");
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+
     }
 
-    @DeleteMapping("/api/post/password/{id}")
-    public boolean deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws Exception {
-        if (postService.checkPassword(id, requestDto.getPassword())) {
-            postRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
 
 }
