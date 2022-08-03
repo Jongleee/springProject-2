@@ -30,6 +30,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         response.setStatus(401);
         response.setHeader("ACCESS_TOKEN", accessToken);
         response.setHeader("msg", "Token이 유효하지 않습니다.");
+        response.sendError(401,"Token이 유효하지 않습니다.");
         return false;
     }
 }
