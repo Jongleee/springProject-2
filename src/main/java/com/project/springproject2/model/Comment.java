@@ -1,23 +1,22 @@
 package com.project.springproject2.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.springproject2.domain.Timestamped;
 import com.project.springproject2.dto.CommentRequestDto;
-import com.project.springproject2.dto.CommentResponseDtoList;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@ToString
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
+        @Table(name = "commentResponseDtoList")
 @NoArgsConstructor
 public class Comment extends Timestamped {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -28,10 +27,9 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String author;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "com.project.springproject2.model.post.post_id")
-    @ToString.Exclude // (3)
+    @JoinColumn(name = "posts_id")
     private Post post;
 
     public Comment(Long postId, String content) {

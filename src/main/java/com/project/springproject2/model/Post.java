@@ -5,19 +5,23 @@ import com.project.springproject2.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ToString
 @NoArgsConstructor // 기본생성자를 만듭니다.
 @Getter
-@Entity(name = "posts") // 테이블과 연계됨을 스프링에게 알려줍니다.
+@Table(name = "post")
+@Entity// 테이블과 연계됨을 스프링에게 알려줍니다.
 public class Post extends Timestamped { // 생성,수정 시간을 자동으로 만들어줍니다.
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "com.project.springproject2.model.post.post_id")
+    @Column(name = "posts_id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -29,9 +33,14 @@ public class Post extends Timestamped { // 생성,수정 시간을 자동으로 
     @Column(nullable = false)
     private String author;
 
-    @OneToMany(mappedBy = "post") // (4)
+    @Nullable
+    @OneToMany (mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @ToString.Exclude // (3)
-    private List<Comment> comment = new ArrayList<>();
+    private Set<Comment> commentResponseDtoList=new HashSet<>() ;
+    public void addComment(Comment comment){
+        this.commentResponseDtoList.add(comment);
+        comment.setPost(this);
+    }
 
     public Post(String author, String content, String title,String password) {
         this.author = author;
