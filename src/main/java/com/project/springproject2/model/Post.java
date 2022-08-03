@@ -21,18 +21,17 @@ public class Post extends Timestamped { // 생성,수정 시간을 자동으로 
     private Long id;
 
     @Column(nullable = false)
-    private String author;
+    private String title;
 
     @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
-    private String title;
+    private String author;
 
     @OneToMany(mappedBy = "post") // (4)
     @ToString.Exclude // (3)
-    private List<Comment> comments = new ArrayList<>();
-
+    private List<Comment> comment = new ArrayList<>();
 
     public Post(String author, String content, String title,String password) {
         this.author = author;
