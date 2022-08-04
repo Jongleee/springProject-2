@@ -3,7 +3,7 @@ package com.project.springproject2.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.springproject2.domain.Timestamped;
-import com.project.springproject2.dto.CommentRequestDto;
+import com.project.springproject2.dto.CommentDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,23 +13,24 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-        @Table(name = "commentResponseDtoList")
+@Table(name = "commentResponseDtoList")
 @NoArgsConstructor
 public class Comment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
+    @Column(nullable = false)
+    private String author;
+    @JsonIgnore
     private Long postId;
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String author;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "posts_id")
+    @JoinColumn(name = "posts_Id")
     private Post post;
 
     public Comment(Long postId, String content) {
@@ -37,18 +38,18 @@ public class Comment extends Timestamped {
         this.content = content;
     }
 
-    public Comment(CommentRequestDto requestDto) {
+    public Comment(CommentDto requestDto) {
         this.postId = requestDto.getPostId();
         this.content = requestDto.getContent();
     }
 
-    public Comment(CommentRequestDto requestDto, String author) {
+    public Comment(CommentDto requestDto, String author) {
         this.postId = requestDto.getPostId();
         this.content = requestDto.getContent();
         this.author = author;
     }
 
-    public void update(CommentRequestDto requestDto) {
+    public void update(CommentDto requestDto) {
 
         this.content = requestDto.getContent();
     }
