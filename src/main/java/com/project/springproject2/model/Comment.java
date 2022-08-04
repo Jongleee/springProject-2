@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "commentResponseDtoList")
 @NoArgsConstructor
 public class Comment extends Timestamped {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 

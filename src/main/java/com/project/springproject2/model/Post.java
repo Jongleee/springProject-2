@@ -22,7 +22,7 @@ import java.util.Set;
 @Table(name = "post")
 @Entity// 테이블과 연계됨을 스프링에게 알려줍니다.
 public class Post extends Timestamped { // 생성,수정 시간을 자동으로 만들어줍니다.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "posts_id", nullable = false)
     private Long id;

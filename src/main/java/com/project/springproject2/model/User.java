@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class User extends Timestamped implements UserDetails {
 
     // ID가 자동으로 생성 및 증가합니다.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
