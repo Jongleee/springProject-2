@@ -26,7 +26,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     // 회원 가입 요청 처리
-    @PostMapping("/member/signup")
+    @PostMapping("/api/member/signup")
 //    public Long registerUser(@RequestBody Map<String, String> user) {
     public ResponseEntity<Message> registerUser(@RequestBody SignupDto signupDto) {
         if(userRepository.findByNickname(signupDto.getNickname()).isPresent()){
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     // 로그인
-//    @PostMapping("/member/login")
+//    @PostMapping("/api/member/login")
 //    public String login(@RequestBody Map<String, String> user) {
 //        User member = userRepository.findByNickname(user.get("nickname"))
 //                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
@@ -69,7 +69,7 @@ public class UserController {
 //        }
 //        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
 //    }
-    @PostMapping("/member/login")
+    @PostMapping("/api/member/login")
     public ResponseEntity<Message> login(@RequestBody Map<String, String> user) {
         if(userRepository.findByNickname(user.get("nickname")).isEmpty()){
             Message message = new Message();

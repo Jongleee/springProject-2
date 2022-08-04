@@ -1,7 +1,6 @@
 package com.project.springproject2.controller;
 
-import com.project.springproject2.dto.CommentRequestDto;
-import com.project.springproject2.dto.PostRequestDto;
+import com.project.springproject2.dto.CommentDto;
 import com.project.springproject2.model.Comment;
 import com.project.springproject2.model.Message;
 import com.project.springproject2.model.Post;
@@ -9,7 +8,6 @@ import com.project.springproject2.repository.CommentRepository;
 import com.project.springproject2.repository.PostRepository;
 import com.project.springproject2.security.provider.JwtTokenProvider;
 import com.project.springproject2.service.CommentService;
-import com.project.springproject2.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,11 +23,16 @@ public class CommentController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PostRepository postRepository;
 
     @PostMapping("/api/auth/comment")
-    public ResponseEntity<?> createComment(@RequestBody CommentRequestDto requestDto,@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
+    public ResponseEntity<?> createComment(@RequestBody CommentDto requestDto, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
         String nickname = jwtTokenProvider.getUserPk(token);
         Comment comment = new Comment(requestDto,nickname);
+        Post post= postRepository.findById(requestDto.getPostId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 없습니다.")
+        );
+        comment.setPost(post);
         commentRepository.save(comment);
         Message message = new Message();
         message.setData(comment);
@@ -46,7 +48,7 @@ public class CommentController {
     }
 
     @PutMapping("/api/auth/comment/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentRequestDto requestDto,@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentDto requestDto, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
         String nickname = jwtTokenProvider.getUserPk(token);
         if (!commentService.checkAuthor(id, nickname)){
             Message message = new Message();
