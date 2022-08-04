@@ -23,10 +23,13 @@ public class PostController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/auth/post")
-    public Post createPost(@RequestBody PostRequestDto requestDto ,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+    public ResponseEntity<?> createPost(@RequestBody PostRequestDto requestDto ,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
         String nickname = jwtTokenProvider.getUserPk(token);
         Post post = new Post(nickname, requestDto);
-        return postRepository.save(post);
+        postRepository.save(post);
+        Message message = new Message();
+        message.setData(post);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
     @GetMapping("/api/post")
     public ResponseEntity<?> getPosts() {
