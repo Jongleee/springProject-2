@@ -4,7 +4,6 @@ import com.project.springproject2.dto.SignupDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
@@ -16,7 +15,7 @@ public class UserService {
                 && Pattern.matches("^[A-Za-z0-9]{4,32}$", signupDto.getPassword());
     }
     public static boolean validatePassword(SignupDto signupDto) {
-        if(signupDto.getPasswordCheck().equals(signupDto.getPassword())) return true;
+        if(signupDto.getPasswordConfirm().equals(signupDto.getPassword())) return true;
         return false;
     }
 }
