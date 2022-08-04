@@ -1,6 +1,6 @@
 package com.project.springproject2.service;
 
-import com.project.springproject2.dto.CommentRequestDto;
+import com.project.springproject2.dto.CommentDto;
 import com.project.springproject2.model.Comment;
 import com.project.springproject2.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public Long update(Long id, CommentRequestDto requestDto, String author) {
+    public Long update(Long id, CommentDto requestDto, String author) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
